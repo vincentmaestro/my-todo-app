@@ -25,6 +25,7 @@ function App() {
         todo: '',
         description: ''
     });
+    const [todoHasNoTitle, setTodoHasNoTitle] = useState(false);
 
     function deleteTodo(e) {
         const newTodos = [...todos];
@@ -60,8 +61,19 @@ function App() {
       e.preventDefault();
       if(newTodo.todo.length) {
         setTodos([...todos, newTodo]);
+        setNewTodo({
+            todo: '',
+            description: ''
+        });
+        setTodoHasNoTitle(false);
         e.target.reset();
-      };
+      }
+      else {
+        setTodoHasNoTitle(true);
+        setTimeout(() => {
+            setTodoHasNoTitle(false);
+        }, 3000);
+      }
     }
 
     return ( 
@@ -75,25 +87,26 @@ function App() {
                 {todos.filter(todo => todo.todo.toLowerCase().includes(searchText.toLowerCase())).length ? 
                 todos.filter(todo => todo.todo.toLowerCase().includes(searchText.toLowerCase())).map((todo, index) => (
                     <li key={index} className="bg-[#423a6f]" onClick={checkAction}>
-                        <div className="flex font-bold items-center justify-between p-3 text-lg text-[#ddd] rounded-lg mb-1 tablet:text-xl mobile:py-4">
-                            <span className="mobile:text-2xl mobile_m:text-xl mobile_s:text-lg">{todo.todo}</span>
-                            <div className="flex gap-x-5 items-center mobile:gap-x-7">
+                        <div className="flex font-bold items-center justify-between p-3 text-lg rounded-lg mb-1 tablet:text-xl mobile:py-4">
+                            <span className="text-[#ddd] mobile:text-2xl mobile_m:text-xl mobile_s:text-lg">{todo.todo}</span>
+                            <div className="flex gap-x-5 items-center text-[#ddd] mobile:gap-x-7">
                                 {todo.description ? <i id="expand" className="fa-solid fa-circle-chevron-down cursor-pointer" /> : null}
-                                <i id="delete-todo" className="fa-solid fa-trash-can cursor-pointer" />
+                                <i id="delete-todo" className="fa-solid fa-trash-can text-red-500 cursor-pointer" />
                             </div>
                         </div>
                         <p id="description" className="px-2 text-gray-300 hidden pb-1 tablet:text-xl">{todo.description}</p>
                     </li>
-                )) : <span className="text-center text-xl text-gray-200">No match found</span>}
+                )) : <span className="text-center text-xl text-gray-200">No todos</span>}
             </ul>
         
             <form className="flex flex-col justify-center items-center gap-3 text-[#eee] pb-5" onSubmit={addTodo}>
                 <h1 className="text-4xl">Add a new todo</h1>
+                {todoHasNoTitle && <span className="font-semibold text-center text-red-400">Todo must have a title</span>}
                 <div className="flex flex-col justify-center items-center gap-y-4 mobile:gap-y-5">
                     <input type="text" name="todo" placeholder="Add new" className="w-[70%] p-2 outline-none text-lg bg-[rgba(0,0,0,0.2)] rounded-lg tablet:w-[60%] mobile_i:w-[70%]" onChange={handleInput} />
-                    <textarea name="description" placeholder="Description (Optional)" cols="60" rows="6" className="bg-[rgba(0,0,0,0.2)] outline-none rounded-xl tablet:text-2xl" onChange={handleInput} />
+                    <textarea name="description" placeholder="Description (Optional)" cols="60" rows="6" className="bg-[rgba(0,0,0,0.2)] outline-none rounded-xl tablet:text-2xl mobile:text-xl" onChange={handleInput} />
                 </div>
-                <button type="submit" className="bg-[#423a6f] py-1 px-2 cursor-pointer rounded-md tablet:text-2xl tablet:px-3 mobile:px-4 mobile:mt-3">Add</button>
+                <button type="submit" className="bg-[#423a6f] py-1 px-2 cursor-pointer rounded-md transition-colors duration-200 hover:bg-[#ddd] hover:text-black tablet:text-2xl tablet:px-3 mobile:px-4 mobile:mt-3">Add</button>
             </form>
         </div>  
     );
