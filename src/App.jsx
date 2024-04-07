@@ -1,116 +1,201 @@
-import { useState } from "react";
 import './App.css'
 
 function App() {
-    const [todos, setTodos] = useState([
-        {
-            todo: 'Do the laundry',
-            description: ''
-        },
-        {
-            todo: 'Old friends hangout',
-            description: 'Rekindling some good old school memories with some friends. It\'s been a while'
-        },
-        {
-            todo: 'Go shopping',
-            description: ''
-        },
-        {
-            todo: 'Hit the gym',
-            description: 'The urgent need to burn some calories cause at this point it can only get worse.'
-        }
-    ]);
-    const [searchText, setSearchText] = useState('');
-    const [newTodo, setNewTodo] = useState({
-        todo: '',
-        description: ''
-    });
-    const [todoHasNoTitle, setTodoHasNoTitle] = useState(false);
 
-    function deleteTodo(e) {
-        const newTodos = [...todos];
-        const indexOfTodoToBeDeleted = Array.from(e.target.parentElement.parentElement.parentElement.parentElement.childNodes).indexOf(e.target.parentElement.parentElement.parentElement);
-        newTodos.splice(indexOfTodoToBeDeleted, 1);
-        setTodos(newTodos);
-    }
+  return (
+    <>
+      <section className='mt-[3%] flex justify-center items-center gap-[15%]'>
+        <div>
+          <p className='text-center text-white mb-6 font-semibold text-xl'>Hello, I'm</p>
+          <h1 className='text-center text-white font-bold text-4xl tracking-wide mb-3'>UMEH VINCENT OBIORA</h1>
+          <p className='text-gray-400 text-center text-xl font-bold'>Front-end web developer</p>
 
-    function expand(e) {
-        e.target.classList.add('rotate-180');
-        e.target.setAttribute('id', 'collapse');
-        e.target.parentElement.parentElement.parentElement.querySelector('#description').style.display = 'block';
-    }
+          <div className="flex gap-[10%] justify-center mt-[6%]">
+            <a href="" className='rounded-[10px] text-white text-lg font-semibold p-3 border-2 border-[#4db5ff]'>Download Resumé</a>
+            <button className='rounded-[10px] text-white text-lg font-semibold p-3 border-2 border-[#4db5ff]' onClick={() => document.getElementById('contact-me').scrollIntoView()}>Contact me</button>
+          </div>
+        </div>
 
-    function collapse(e) {
-        e.target.classList.remove('rotate-180');
-        e.target.setAttribute('id', 'expand');
-        e.target.parentElement.parentElement.parentElement.querySelector('#description').style.display = 'none';
-    }
-    
-    function checkAction(e) {
-        if(e.target.getAttribute('id') === 'delete-todo') deleteTodo(e);
-        else if(e.target.getAttribute('id') === 'expand') expand(e);
-        else if(e.target.getAttribute('id') === 'collapse') collapse(e);
-    }
+        <div>
+          <div className="portrait h-[350px] w-[300px] rounded-tl-[12rem] rounded-tr-[12rem] mx-auto mt-[4%] relative">
+            <img src="./portrait.png" alt="portrait image" className='w-[80%] absolute top-[2%] left-[50%]' />
+          </div>
+        </div>
+      </section>
 
-    function handleInput(e) {
-        const {name, value} = e.target;
-        setNewTodo({...newTodo, [name]: value});
-    }
-    
-    function addTodo (e) {
-      e.preventDefault();
-      if(newTodo.todo.length) {
-        setTodos([...todos, newTodo]);
-        setNewTodo({
-            todo: '',
-            description: ''
-        });
-        setTodoHasNoTitle(false);
-        e.target.reset();
-      }
-      else {
-        setTodoHasNoTitle(true);
-        setTimeout(() => {
-            setTodoHasNoTitle(false);
-        }, 3000);
-      }
-    }
+      <section id='about-me' className='mt-[4%]'>
+        <h1 className='text-center text-[20px] text-white text-3xl mb-[1%]'>About me</h1>
+        <p className='text-white text-lg w-[80%] mx-auto'>
+          A goal-driven, innovative, ever-evolving front-end engineer building highly scalable, interactive user interfaces. I'm a passionate, goal-oriented individual with real life experience and practice seeking an opportunity to apply my arsenal of skills and experience gathered so far and also expand/learn new practices, technologies and frameworks where/when needed.
+        </p>
+        <p className='text-white text-lg w-[80%] mx-auto'>
+          With foundational knowledge of front-end design and by employing the best practices when building for optimized performance and responsive design, I am ever ready to take on new challenges, learn and contribute to the success of your next big project.
+        </p>
+      </section>
 
-    return ( 
-        <div className="bg-[#352f5b] h-screen overflow-y-auto">
-            <div className="flex flex-col items-center mb-8">
-                <h1 className="text-5xl my-6 text-white mobile_i:text-4xl">My Todo App</h1>
-                <input type="text" placeholder="Search Todos" className="w-[30%] p-2 outline-none text-white text-lg bg-[rgba(0,0,0,0.2)] rounded-lg laptop_s:w-[40%] tablet:w-1/2 mobile:w-[55%] mobile_i:w-[65%]" value={searchText} onChange={e => setSearchText(e.target.value)} />
+      <section id='stack' className='mt-[4%]'>
+        <h1 className='text-center text-[20px] text-white text-3xl mb-[1%]'>Skills and stack</h1>
+        <div className="stack grid justify-center gap-x-[18%] gap-y-[40px] py-4 w-[80%] mx-auto rounded-[20px]">
+          <div className='flex flex-col items-center'>
+            <div className="w-[80px] bg-white">
+              <img src="./html.png" alt="html" />
             </div>
-        
-            <ul className="w-[50%] mx-auto flex flex-col gap-y-2 justify-center mb-10 laptop_s:w-[60%] tablet:w-[75%] mobile:w-[85%] mobile:gap-y-3 mobile_i:w-[90%]">
-                {todos.filter(todo => todo.todo.toLowerCase().includes(searchText.toLowerCase())).length ? 
-                todos.filter(todo => todo.todo.toLowerCase().includes(searchText.toLowerCase())).map((todo, index) => (
-                    <li key={index} className="bg-[#423a6f]" onClick={checkAction}>
-                        <div className="flex font-bold items-center justify-between p-3 text-lg rounded-lg mb-1 tablet:text-xl mobile:py-4">
-                            <span className="text-[#ddd] mobile:text-2xl mobile_m:text-xl mobile_s:text-lg">{todo.todo}</span>
-                            <div className="flex gap-x-5 items-center text-[#ddd] mobile:gap-x-7">
-                                {todo.description ? <i id="expand" className="fa-solid fa-circle-chevron-down cursor-pointer" /> : null}
-                                <i id="delete-todo" className="fa-solid fa-trash-can text-red-500 cursor-pointer" />
-                            </div>
-                        </div>
-                        <p id="description" className="px-2 text-gray-300 hidden pb-1 tablet:text-xl">{todo.description}</p>
-                    </li>
-                )) : <span className="text-center text-xl text-gray-200">No todos</span>}
-            </ul>
-        
-            <form className="flex flex-col justify-center items-center gap-3 text-[#eee] pb-5" onSubmit={addTodo}>
-                <h1 className="text-4xl">Add a new todo</h1>
-                {todoHasNoTitle && <span className="font-semibold text-center text-red-400">Todo must have a title</span>}
-                <div className="flex flex-col justify-center items-center gap-y-4 mobile:gap-y-5">
-                    <input type="text" name="todo" placeholder="Add new" className="w-[70%] p-2 outline-none text-lg bg-[rgba(0,0,0,0.2)] rounded-lg tablet:w-[60%] mobile_i:w-[70%]" onChange={handleInput} />
-                    <textarea name="description" placeholder="Description (Optional)" cols="60" rows="6" className="bg-[rgba(0,0,0,0.2)] outline-none rounded-xl tablet:text-2xl mobile:text-xl" onChange={handleInput} />
-                </div>
-                <button type="submit" className="bg-[#423a6f] py-1 px-2 cursor-pointer rounded-md transition-colors duration-200 hover:bg-[#ddd] hover:text-black tablet:text-2xl tablet:px-3 mobile:px-4 mobile:mt-3">Add</button>
-            </form>
-        </div>  
-    );
+            <p className='text-lg text-gray-200 font-semibold'>HTML</p>
+          </div>
+          <div className='flex flex-col items-center'>
+            <div className="w-[80px] bg-white">
+              <img src="./css.png" alt="css" />
+            </div>
+            <p className='text-lg text-gray-200 font-semibold'>CSS</p>
+          </div>
+          <div className='flex flex-col items-center'>
+            <div className="w-[80px] bg-white">
+              <img src="./javascript.png" alt="javascript" />
+            </div>
+            <p className='text-lg text-gray-200 font-semibold'>JavaScript</p>
+          </div>
+          <div className='flex flex-col items-center'>
+            <div className="w-[80px] bg-white flex justify-center py-2">
+              <img src="./react.png" alt="react" />
+            </div>
+            <p className='text-lg text-gray-200 font-semibold'>React</p>
+          </div>
+          <div className='flex flex-col items-center'>
+            <div className="w-[80px] flex justify-center">
+              <img src="./typescript.png" alt="typescript" />
+            </div>
+            <p className='text-lg text-gray-200 font-semibold'>TypeScript</p>
+          </div>
+          <div className='flex flex-col items-center'>
+            <div className="w-[80px]">
+              <img src="./tailwindcss.jpg" alt="tailwind css" />
+            </div>
+            <p className='text-lg text-gray-200 font-semibold'>Tailwind Css</p>
+          </div>
+          <div className='flex flex-col items-center'>
+            <div className="w-[80px]">
+              <img src="./firebase.png" alt="firebase" />
+            </div>
+            <p className='text-lg text-gray-200 font-semibold'>Firebase</p>
+          </div>
+          <div className='flex flex-col items-center'>
+            <div className="w-[80px] bg-gray-100">
+              <img src="./git.png" alt="git" />
+            </div>
+            <p className='text-lg text-gray-200 font-semibold'>Git</p>
+          </div>
+          <div className='flex flex-col items-center'>
+            <div className="w-[80px]">
+              <img src="./github.png" alt="github" />
+            </div>
+            <p className='text-lg text-gray-200 font-semibold'>Github</p>
+          </div>
+        </div>
+      </section>
 
+      <section id='projects' className='mt-[4%]'>
+        <h1 className='text-center text-[20px] text-white text-3xl mb-[1%]'>Projects</h1>
+        <div className="flex gap-x-[6%] flex-wrap gap-y-[40px] justify-center w-[80%] mx-auto py-4 rounded-[20px]">
+          <div className="flex flex-col items-center">
+            <div className="w-[180px]">
+              <img src="./pastours.avif" alt="pastours" />
+            </div>
+            <div className="flex flex-col items-center">
+              <p className='text-gray-100  font-semibold text-2xl'>Pastours</p>
+              <p className='text-gray-300 text-lg'>E-commerce || Shopping || Online mall</p>
+              <a href="https://pastours.netlify.app" target='blank' className='text-gray-100 text-lg bg-[#2c2c6c] px-4 py-[2px] rounded-[10px]'>Visit</a>
+            </div>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="w-[180px]">
+              <img src="./pastours.avif" alt="pastours" />
+            </div>
+            <div className="flex flex-col items-center">
+              <p className='text-gray-100  font-semibold text-2xl'>Pastours</p>
+              <p className='text-gray-300 text-lg'>E-commerce || Shopping || Online mall</p>
+              <a href="https://pastours.netlify.app" target='blank' className='text-gray-100 text-lg bg-[#2c2c6c] px-4 py-[2px] rounded-[10px]'>Visit</a>
+            </div>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="w-[180px]">
+              <img src="./pastours.avif" alt="pastours" />
+            </div>
+            <div className="flex flex-col items-center">
+              <p className='text-gray-100  font-semibold text-2xl'>Pastours</p>
+              <p className='text-gray-300 text-lg'>E-commerce || Shopping || Online mall</p>
+              <a href="https://pastours.netlify.app" target='blank' className='text-gray-100 text-lg bg-[#2c2c6c] px-4 py-[2px] rounded-[10px]'>Visit</a>
+            </div>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="w-[180px]">
+              <img src="./pastours.avif" alt="pastours" />
+            </div>
+            <div className="flex flex-col items-center">
+              <p className='text-gray-100  font-semibold text-2xl'>Pastours</p>
+              <p className='text-gray-300 text-lg'>E-commerce || Shopping || Online mall</p>
+              <a href="https://pastours.netlify.app" target='blank' className='text-gray-100 text-lg bg-[#2c2c6c] px-4 py-[2px] rounded-[10px]'>Visit</a>
+            </div>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="w-[180px]">
+              <img src="./pastours.avif" alt="pastours" />
+            </div>
+            <div className="flex flex-col items-center">
+              <p className='text-gray-100  font-semibold text-2xl'>Pastours</p>
+              <p className='text-gray-300 text-lg'>E-commerce || Shopping || Online mall</p>
+              <a href="https://pastours.netlify.app" target='blank' className='text-gray-100 text-lg bg-[#2c2c6c] px-4 py-[2px] rounded-[10px]'>Visit</a>
+            </div>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="w-[180px]">
+              <img src="./pastours.avif" alt="pastours" />
+            </div>
+            <div className="flex flex-col items-center">
+              <p className='text-gray-100  font-semibold text-2xl'>Pastours</p>
+              <p className='text-gray-300 text-lg'>E-commerce || Shopping || Online mall</p>
+              <a href="https://pastours.netlify.app" target='blank' className='text-gray-100 text-lg bg-[#2c2c6c] px-4 py-[2px] rounded-[10px]'>Visit</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id='contact-me' className='mt-[4%]'>
+        <h1 className='text-center text-[20px] text-white text-3xl mb-[1%]'>Contact me</h1>
+        <div className="">
+          <div className="w-[35%] mx-auto">
+            <a href="https://x.com/Soundtrickz" target='blank' className='bg-[#2c2c6c88] py-4 px-10 flex items-center justify-center gap-x-5 mb-3 text-white rounded-[12px]'>
+              <i className="ri-twitter-fill text-[24px]"></i>
+              <p>On Twitter <span className='font-semibold text-lg'>(X)</span></p>
+            </a>
+            <a href="mailto:maestroobika@gmail.com" className='bg-[#2c2c6c88] py-4 px-10 flex items-center justify-center gap-x-5 mb-3 text-white rounded-[12px]'>
+              <i className="ri-mail-send-line text-[24px]"></i>
+              <p>Send me an e-mail</p>
+            </a>
+              <a href="https://github.com/vincentmaestro" target='blank' className='bg-[#2c2c6c88] py-4 px-10 flex items-center justify-center gap-x-5 mb-3 text-white rounded-[12px]'>
+              <i className="ri-github-fill text-[24px]"></i>
+              <p>View my github</p>
+            </a>
+            <a href="https://www.facebook.com/soundtrickz" target='blank' className='bg-[#2c2c6c88] py-4 px-10 flex items-center justify-center gap-x-5 mb-3 text-white rounded-[12px]'>
+              <i className="ri-facebook-circle-fill text-[24px]"></i>
+              <p>Connect with me on Facebook</p>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <footer className='mt-[4%] bg-[#423a6f7a] py-10'>
+        <h1 className='text-center text-[20px] text-white text-3xl mb-[1%]'>Thank you!</h1>
+        <p className='text-center text-white'>&copy; VinDev. All rights reserved</p>
+        <nav className="flex gap-x-[4%] justify-between w-[30%] mx-auto fixed bottom-[4%] left-[50%] translate-x-[-50%] py-3 px-4 rounded-[12px] bg-[#423a6f]">
+          <span className='cursor-pointer text-gray-300' onClick={() => scrollTo(0, 0)}>Top</span>
+          <span className='cursor-pointer text-gray-300' onClick={() => document.getElementById('about-me').scrollIntoView()}>About me</span>
+          <span className='cursor-pointer text-gray-300' onClick={() => document.getElementById('stack').scrollIntoView()}>Skills</span>
+          <span className='cursor-pointer text-gray-300' onClick={() => document.getElementById('projects').scrollIntoView()}>Projects</span>
+          <span className='cursor-pointer text-gray-300' onClick={() => document.getElementById('contact-me').scrollIntoView()}>Contact me</span>
+        </nav>
+      </footer>
+    </>
+  )
 }
 
 export default App
