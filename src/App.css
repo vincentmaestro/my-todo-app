@@ -1,25 +1,7 @@
-
-textarea::placeholder {
-    text-align: center;
+html {
+    scroll-behavior: smooth;
 }
 
-@media screen and (max-width: 768px) {
-    textarea::placeholder {
-        font-size: 24px;
-    }
-    textarea {
-        width: 80%;
-    }
-}
-
-@media screen and (max-width: 576px) {
-    textarea {
-        width: 85%;
-    } 
-}
-
-@media screen and (max-width: 430px) {
-    textarea {
-        width: 90%;
-    } 
+body {
+    background-image: linear-gradient(#2f3503d0, #2f3503d0), url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsBAMAAADsqkcyAAAAElBMVEXk5ORwcHCrq6ulpaWcnJysrKyo8ZZsAAAABnRSTlMAC1A1IGVYh68sAAAAcklEQVR4Xu3RsQ3EMAxD0Wcn13sEj+ARMkL2n+agjo0muANE4hcCQUFelJFoliysQA7HzZ1YKj9OItbCnIkAvInNdpfdNGl6d1eCj7LEgWFjB/LUXFyJpfLHk4i9MUYifECiZrvLbpo0vZsrf/Xz/89/ATY+G+WnjEVsAAAAAElFTkSuQmCC);
 }
